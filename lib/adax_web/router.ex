@@ -17,7 +17,7 @@ defmodule AdaxWeb.Router do
   scope "/", AdaxWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", ChatRoomLive
   end
 
   # Other scopes may use custom stacks.
