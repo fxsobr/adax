@@ -1,7 +1,7 @@
 defmodule AdaxWeb.ChatRoomLive do
   use AdaxWeb, :live_view
 
-  alias Adax.Repo
+  alias Adax.Chat
   alias Adax.Chat.Room
 
   def render(assigns) do
@@ -60,7 +60,7 @@ defmodule AdaxWeb.ChatRoomLive do
   end
 
   def mount(_params, _session, socket) do
-    rooms = Repo.all(Room)
+    rooms = Chat.list_rooms()
 
     {:ok, assign(socket, rooms: rooms)}
   end
@@ -69,10 +69,10 @@ defmodule AdaxWeb.ChatRoomLive do
     room =
       case Map.fetch(params, "id") do
         {:ok, id} ->
-          Repo.get!(Room, id)
+          Chat.get_room!(id)
 
         :error ->
-          List.first(socket.assigns.rooms)
+          Chat.get_first_room!()
       end
 
     {:noreply, assign(socket, hide_topic?: false, room: room)}
