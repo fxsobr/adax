@@ -2,9 +2,10 @@ defmodule Adax.Chat do
   alias Adax.Chat.Room
   alias Adax.Repo
 
+  import Ecto.Query
+
   def get_first_room! do
-    [room | _] = list_rooms()
-    room
+    Repo.one!(from r in Room, limit: 1, order_by: [asc: :name])
   end
 
   def get_room!(id) do
@@ -12,6 +13,6 @@ defmodule Adax.Chat do
   end
 
   def list_rooms do
-    Room |> Repo.all()
+    Repo.all(from r in Room, order_by: [asc: :name])
   end
 end
